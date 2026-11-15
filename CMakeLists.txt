@@ -43,15 +43,11 @@ if(NOT EXISTS ${RAYLIB_LIB})
     message(FATAL_ERROR "raylib nicht gefunden: ${RAYLIB_LIB}")
 endif()
 
-find_package(Threads REQUIRED)
-
 # libraylib.a bindet GLFW ein und laedt OpenGL/Wayland zur Laufzeit per
-# dlopen - Link-Abhaengigkeiten sind daher nur noch libraylib, libm sowie
-# (auf aelteren glibc-Systemen) pthread und dl. librt ist seit glibc 2.17
-# nicht mehr noetig, OpenGL wird nicht gegen den Linker gebunden.
+# dlopen - Link-Abhaengigkeiten sind daher nur noch libraylib und libm.
+# OpenGL, pthread, dl, rt und die Wayland-Bibliotheken werden nicht gegen
+# den Linker gebunden.
 target_link_libraries(demo PRIVATE
     ${RAYLIB_LIB}
-    Threads::Threads
     m
-    ${CMAKE_DL_LIBS}
 )
