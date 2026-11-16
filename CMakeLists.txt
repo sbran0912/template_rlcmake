@@ -18,7 +18,7 @@ endif()
 set(CMAKE_C_FLAGS_DEBUG "-O0 -g3")
 set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG")
 
-# Gleiche Sprachversion wie im Makefile: striktes C17 (-std=c17).
+# Strikte Sprachversion: C17 (-std=c17).
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)

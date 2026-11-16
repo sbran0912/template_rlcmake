@@ -1,7 +1,8 @@
 # raylib C-Vorlage (CMake)
 
 Einfache Projekt-Vorlage für raylib 6 (C), vorkompiliert für **Wayland-pur**.
-Gebaut wird mit **CMake + Ninja** und **gcc**.
+Gebaut wird mit **CMake + Ninja** und **gcc**; das `Makefile` ist nur ein
+bequemer Wrapper um den CMake-Build.
 
 ## Inhalt
 
@@ -50,30 +51,33 @@ Gebaut wird mit **CMake + Ninja** und **gcc**.
 2. Konfigurieren und kompilieren:
 
    ```bash
+   cmake -S . -B build -G Ninja
+   cmake --build build
+   ```
+
+   Oder kürzer über das Makefile:
+
+   ```bash
    make cmake
    ```
 
 3. Starten:
 
    ```bash
-   make cmake-run     # oder direkt: ./build/demo
+   ./build/demo
    ```
 
-## Makefile-Targets
+   Oder kürzer über das Makefile:
+
+   ```bash
+   make cmake-run
+   ```
+
+## Build mit CMake
 
 ```bash
-make cmake         # konfiguriert (Release) und baut build/demo
-make cmake-debug   # konfiguriert (Debug) und baut build/demo
-make cmake-init    # nur konfigurieren (cmake -S . -B build -G Ninja)
-make cmake-run     # baut und startet build/demo
-make cmake-clean   # build/ entfernen
-```
-
-## Direkt mit CMake
-
-```bash
-cmake -S . -B build -G Ninja
-cmake --build build
+cmake -S . -B build -G Ninja    # konfigurieren
+cmake --build build             # bauen -> build/demo
 ```
 
 Das Programm liegt danach unter `build/demo`.
@@ -104,6 +108,18 @@ Dateien hinzukommen oder `build/` gelöscht wurde.
 > gelöscht werden (`rm -rf build`). Überschreiben lässt sich der Compiler mit
 > `-DCMAKE_C_COMPILER=...`.
 
+## Makefile-Targets
+
+Das `Makefile` ruft nur die oben genannten CMake-Befehle auf:
+
+```bash
+make cmake         # konfiguriert (Release) und baut build/demo
+make cmake-debug   # konfiguriert (Debug) und baut build/demo
+make cmake-init    # nur konfigurieren (cmake -S . -B build -G Ninja)
+make cmake-run     # baut und startet build/demo
+make cmake-clean   # build/ entfernen
+```
+
 ## Editor
 
 `.vscode/` und `.zed/` enthalten fertige Build-Tasks und Debug-Konfigurationen
@@ -122,17 +138,6 @@ in `CMakeLists.txt` aktiviert ist. clangd findet die Datei über den Eintrag
 `CompilationDatabase: build` in `.clangd`; VS Code nutzt sie über
 `C_Cpp.default.compileCommands`. Ein Symlink im Projektwurzelverzeichnis ist
 nicht nötig.
-
-## Manuelles Kompilieren (ohne CMake)
-
-```bash
-gcc app/main.c -Ilib -Llib -lraylib -lm -o program
-```
-
-`-lGL`, `-lpthread`, `-ldl`, `-lrt` und die Wayland-Bibliotheken sind beim
-Linken nicht nötig: GLFW steckt in `libraylib.a`, und OpenGL sowie das
-Wayland-Backend werden zur Laufzeit per `dlopen` geladen (pthread/dl liegen
-seit glibc 2.34 in `libc`).
 
 ## Wichtige Hinweise
 
